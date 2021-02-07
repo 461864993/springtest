@@ -1,0 +1,51 @@
+server:
+  port: 9019
+
+spring:
+  mvc:
+    servlet:
+      load-on-startup: 1
+  datasource:
+    username: root
+    password: cxx910628.
+    url: jdbc:mysql://127.0.0.1:3306/springtest?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.jdbc.Driver
+  rabbitmq:
+    host: 47.240.34.64
+    port: 5672
+    username: CC
+    password: cxx910628.
+
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: cxx910628.
+    database: 0
+    lettuce:
+      pool:
+        max-active: 32
+        max-wait: 300ms
+        max-idle: 16
+        min-idle: 8
+#  ssl:
+#    #    证书路径
+#    key-store: orangecxx.xyz.jks
+#    key-store-type: JKS
+#    key-alias: tomcat
+#    #    配置密码，就是在生成证书的时候输入的密码
+#    key-store-password: cxx910628.
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.example.demo.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#showSql
+logging:
+  level:
+    com:
+      example:
+        mapper : debug

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.CityMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.City">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="city" jdbcType="VARCHAR" property="city" />
+        <result column="number" jdbcType="INTEGER" property="number" />
+    </resultMap>
+
+    <select id="getcitynumber" resultType="com.example.demo.entity.City">
+        select * from t_city_number
+    </select>
+
+    <update id="updatecitynumber" parameterType="java.lang.Integer">
+        update t_city_number set number = number + #{num} where id = #{id};
+    </update>
+
+</mapper>

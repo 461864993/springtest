@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.ActivationMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.Activation.Activation">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="activation_code" jdbcType="VARCHAR" property="activation_code" />
+        <result column="activation_status" jdbcType="INTEGER" property="activation_status" />
+        <result column="activation_account" jdbcType="VARCHAR" property="activation_account" />
+    </resultMap>
+
+    <select id="getactivationstatus" resultType="com.example.demo.entity.Activation.Activation">
+        select * from t_activation_info where activation_code = #{activation_code}
+    </select>
+
+    <update id="activatyaccount" parameterType="com.example.demo.entity.Activation.Activation">
+        update t_activation_info set activation_account = #{activation_account},activation_status = #{activation_status} where activation_code = #{activation_code}
+    </update>
+    
+    <insert id="activationadd" parameterType="java.util.List">
+        insert into t_activation_info(activation_code,activation_status) values
+        <foreach collection="list" item="item" index= "index" separator =",">
+        (
+            #{item.activation_code},
+            #{item.activation_status}
+        )
+        </foreach>
+    </insert>
+
+    <select id="getcodebyowner" resultType="com.example.demo.entity.Activation.Activation">
+        select * from t_activation_info where activation_status = #{status} and code_owner = #{owner} limit #{num}
+    </select>
+
+    <select id="getcodebynoowner" resultType="com.example.demo.entity.Activation.Activation">
+        select * from t_activation_info where activation_status = #{status} and code_owner is null limit #{num}
+    </select>
+
+    <update id="setowner" parameterType="java.util.List">
+        update t_activation_info set code_owner = #{owner} where activation_code in (
+        <foreach collection="activationList" item="item" index="index" separator=",">
+            #{item.activation_code}
+        </foreach>
+        ) and code_owner is null
+    </update>
+
+</mapper>

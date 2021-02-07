@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.CommetMapper">
+
+<!--    <resultMap id="BaseResultMap" type="com.example.demo.entity.City">-->
+<!--        <result column="id" jdbcType="INTEGER" property="id" />-->
+<!--        <result column="city" jdbcType="VARCHAR" property="city" />-->
+<!--        <result column="number" jdbcType="INTEGER" property="number" />-->
+<!--    </resultMap>-->
+
+    <select id="getcommet" resultType="com.example.demo.entity.Commet.Commet">
+        select c.id,c.commet_context,c.collect_id,u.user_name as commet_owner,u.user_pic as owner_pic,c.commet_time,c.praise_count
+        from t_collect_commet_info as c JOIN t_user_info as u on c.commet_owner = u.user_id
+        where collect_id = #{collect_id} order by id desc limit 0,#{page_list}
+    </select>
+
+    <select id="reloadcommet" resultType="com.example.demo.entity.Commet.Commet">
+        select c.id,c.commet_context,c.collect_id,u.user_name as commet_owner,c.commet_time,u.user_pic as owner_pic,c.praise_count
+        from t_collect_commet_info as c JOIN t_user_info as u on c.commet_owner = u.user_id
+        where collect_id = #{collect_id} and id &lt; #{last_id} order by id desc limit 0,#{page_list}
+    </select>
+
+    <insert id="addcommet" parameterType="com.example.demo.entity.Commet.Commet">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+          SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_collect_commet_info (commet_context,collect_id,commet_owner,commet_time,praise_count)
+        values (#{commet_context}, #{collect_id}, #{commet_owner}, #{commet_time}, #{praise_count})
+    </insert>
+
+</mapper>

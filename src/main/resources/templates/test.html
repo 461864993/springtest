@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/zxeditor/node_modules/zx-editor/dist/css/zx-editor.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #editorContainer {
+            padding: 15px;
+            /*box-sizing: border-box;*/
+        }
+    </style>
+    <script src="/zxeditor/node_modules/zx-editor/dist/js/zx-editor.min.js"></script>
+</head>
+<body>
+<div id="editorContainer"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-polyfills/0.1.42/polyfill.min.js"></script>
+<!--exif获取照片参数插件-->
+<script src="/zxeditor/node_modules/zx-editor/demo/libs/exif.min.js"></script>
+<!--debug-->
+<script src="https://cdn.bootcss.com/vConsole/3.2.0/vconsole.min.js"></script>
+<!--编辑器-->
+<script src="/zxeditor/node_modules/zx-editor/dist/js/zx-editor.js"></script>
+<script>
+    // 实例化 ZxEditor
+    var zxEditor = new ZxEditor('#editorContainer', {
+        editable: true,
+        // placeholder: '自定义placeholder',
+        // lineHeight: 1,
+        // padding: '0 0 30px',
+        // placeholderColor: 'red',
+        cursorColor: 'red'
+    })
+
+    // 实例化 VConsole
+    new VConsole()
+
+    // console.log(debug)
+
+    console.log('实例化 ZxEditor', zxEditor);
+
+    zxEditor.on('change', function () {
+        // console.log('change input')
+    })
+
+    zxEditor.on('paste', function (e) {
+        console.log('paste', e)
+    })
+
+    zxEditor.on('keydown', function () {
+        // console.log('keydown')
+    })
+
+    zxEditor.on('keyup', function () {
+        // console.log('keyup')
+    })
+
+    zxEditor.on('selectPictureInputChange', function (file, ze, e) {
+        // console.log(file, ze, e)
+    })
+
+    zxEditor.on('error', function (e, methodName) {
+        console.log(methodName)
+        console.error(e)
+    })
+
+    zxEditor.on('windowResize', function () {
+        console.error('windowResize', window.innerHeight)
+    })
+</script>
+</body>
+</html>

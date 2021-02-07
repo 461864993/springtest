@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.CollectMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.Collect.Collect">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="Article_Name" jdbcType="VARCHAR" property="Article_Name" />
+        <result column="Article_URL" jdbcType="VARCHAR" property="Article_URL" />
+        <result column="Article_Owner" jdbcType="VARCHAR" property="Article_Owner" />
+        <result column="Collect_time" jdbcType="VARCHAR" property="Collect_time" />
+        <result column="Browse_Count" jdbcType="INTEGER" property="Browse_Count" />
+    </resultMap>
+
+    <select id="gettopcolection" resultType="com.example.demo.entity.Collect.Collect">
+        select c.id,c.Article_Name,c.Article_URL,u.user_name as Article_Owner,c.Collect_time,c.Browse_Count,c.Share_Secrecy,c.Share_Type,c.Pic_path
+        from t_collection_info as c JOIN t_user_info as u on c.Article_Owner = u.user_id
+        where c.Share_Secrecy=1 or c.Article_Owner=#{user_id} order by id desc limit 0,#{page_list}
+    </select>
+    
+    <select id="reloadcollect" resultType="com.example.demo.entity.Collect.Collect">
+        select c.id,c.Article_Name,c.Article_URL,u.user_name as Article_Owner,c.Collect_time,c.Browse_Count,c.Share_Secrecy,c.Share_Type,c.Pic_path
+        from t_collection_info as c JOIN t_user_info as u on c.Article_Owner = u.user_id
+        where ( c.Share_Secrecy=1 or c.Article_Owner=#{user_id} ) and id &lt; #{last_id} order by id desc limit 0,#{page_list};
+    </select>
+
+    <insert id="addcollect" parameterType="com.example.demo.entity.Collect.Collect">
+        insert into t_collection_info (Article_Name,Article_URL,Article_Owner,Collect_time,Browse_Count,Share_Type,Share_Secrecy,Pic_path)
+        values(#{Article_Name},#{Article_URL},#{Article_Owner},#{Collect_time},#{Browse_Count},#{Share_Type},#{Share_Secrecy},#{Pic_path})
+    </insert>
+
+    <update id="updatecollect" parameterType="com.example.demo.entity.Collect.Collect">
+        update t_collection_info set Article_Name = #{Article_Name},Article_URL = #{Article_URL},Share_Type = #{Share_Type},Share_Secrecy = #{Share_Secrecy},Pic_path = #{Pic_path}
+        where id = #{id} and Article_Owner = #{Article_Owner}
+    </update>
+
+    <select id="getmycollect" resultType="com.example.demo.entity.Collect.Collect">
+        select c.id,c.Article_Name,c.Article_URL,u.user_name as Article_Owner,c.Collect_time,c.Browse_Count,c.Share_Secrecy,c.Share_Type,c.Pic_path
+        from t_collection_info as c JOIN t_user_info as u on c.Article_Owner = u.user_id
+        where c.Article_Owner=#{user_id} order by id desc limit 0,#{page_list}
+    </select>
+
+    <select id="reloadmycollect" resultType="com.example.demo.entity.Collect.Collect">
+        select c.id,c.Article_Name,c.Article_URL,u.user_name as Article_Owner,c.Collect_time,c.Browse_Count,c.Share_Secrecy,c.Share_Type,c.Pic_path
+        from t_collection_info as c JOIN t_user_info as u on c.Article_Owner = u.user_id
+        where c.Article_Owner=#{user_id} and id &lt; #{last_id} order by id desc limit 0,#{page_list};
+    </select>
+
+    <delete id="delcollect">
+        delete  from t_collection_info where id = #{collect_id} and Article_Owner = #{user_id}
+    </delete>
+
+    <select id="searchcollect" resultType="com.example.demo.entity.Collect.Collect">
+       select c.id,c.Article_Name,c.Article_URL,u.user_name as Article_Owner,c.Collect_time,c.Browse_Count,c.Share_Secrecy,c.Share_Type,c.Pic_path
+        from t_collection_info as c JOIN t_user_info as u on c.Article_Owner = u.user_id where ( c.Share_Secrecy=1 or c.Article_Owner=#{user_id} )
+         and Article_Name like "%${search_text}%" order by id desc limit 0,#{page_list}
+    </select>
+
+    <select id="reloadsearchcollect" resultType="com.example.demo.entity.Collect.Collect">
+        select c.id,c.Article_Name,c.Article_URL,u.user_name as Article_Owner,c.Collect_time,c.Browse_Count,c.Share_Secrecy,c.Share_Type,c.Pic_path
+        from t_collection_info as c JOIN t_user_info as u on c.Article_Owner = u.user_id where ( c.Share_Secrecy=1 or c.Article_Owner=#{user_id} )
+         and Article_Name like "%${search_text}%" and id &lt; #{last_id} order by id desc limit 0,#{page_list}
+    </select>
+
+    <select id="getmycollectnum" resultType="java.lang.Integer">
+        select count(id) from t_collection_info where Article_Owner = #{user_id}
+    </select>
+
+</mapper>

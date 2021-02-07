@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.PartnerMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.Partner">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="partner_name" jdbcType="VARCHAR" property="partner_name" />
+        <result column="partner_id" jdbcType="VARCHAR" property="partner_id" />
+        <result column="partner_secret" jdbcType="VARCHAR" property="partner_secret" />
+    </resultMap>
+
+    <select id="getpartnerinfo" resultType="com.example.demo.entity.Partner">
+        select * from t_partner_info where partner_id = #{partner_id}
+    </select>
+
+</mapper>

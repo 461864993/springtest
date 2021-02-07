@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.AlipayUserMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.User.Alipay_User">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="alipay_user_id" jdbcType="VARCHAR" property="alipay_user_id" />
+        <result column="access_token" jdbcType="VARCHAR" property="access_token" />
+        <result column="expires_in" jdbcType="VARCHAR" property="expires_in" />
+        <result column="refresh_token" jdbcType="VARCHAR" property="refresh_token" />
+        <result column="re_expires_in" jdbcType="VARCHAR" property="re_expires_in" />
+        <result column="user_id" jdbcType="VARCHAR" property="user_id" />
+    </resultMap>
+
+    <select id="getuserbyaliid" resultType="com.example.demo.entity.User.Alipay_User">
+        select * from t_alipay_user_info where alipay_user_id=#{alipay_user_id}
+    </select>
+
+    <insert id="insertaliuser" parameterType="com.example.demo.entity.User.Alipay_User">
+        insert into t_alipay_user_info (alipay_user_id,access_token,expires_in,refresh_token,re_expires_in,user_id) values(#{alipay_user_id},#{access_token},#{expires_in},#{refresh_token},#{re_expires_in},#{user_id})
+    </insert>
+
+    <update id="updatealicode" parameterType="com.example.demo.entity.User.Alipay_User">
+        update t_alipay_user_info set access_token=#{access_token},expires_in=#{expires_in},refresh_token=#{refresh_token},re_expires_in=#{re_expires_in} where alipay_user_id=#{alipay_user_id}
+    </update>
+
+    <select id="getuserbyuserid" resultType="com.example.demo.entity.User.Alipay_User">
+        select * from t_alipay_user_info where user_id=#{user_id}
+    </select>
+
+</mapper>
